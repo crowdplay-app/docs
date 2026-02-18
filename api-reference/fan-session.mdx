@@ -1,0 +1,53 @@
+---
+title: Get Session (Fan)
+api: GET /api/fan/session/{code}
+description: Get a session by its 6-character code. Used by the fan client.
+---
+
+This is a **public endpoint** — no authentication required.
+
+## Request
+
+<ParamField path="code" type="string" required>
+  The 6-character session code (e.g. `X7K9P2`).
+</ParamField>
+
+### Example Request
+
+```bash
+curl https://crowdplay-api-i1xh.onrender.com/api/fan/session/X7K9P2
+```
+
+## Response
+
+Returns the session object with its current queue.
+
+### Example Response
+
+```json
+{
+  "_id": "64a1b2c3d4e5f6a7b8c9d0e2",
+  "name": "Saturday Beach Party",
+  "code": "X7K9P2",
+  "isActive": true,
+  "queue": [
+    {
+      "id": "item-uuid-1",
+      "song": {
+        "title": "Blinding Lights",
+        "artist": "The Weeknd",
+        "cover": "https://..."
+      },
+      "requestedBy": "CoolFan42",
+      "status": "pending",
+      "duplicateCount": 2
+    }
+  ]
+}
+```
+
+### Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 404 | Session not found with that code |

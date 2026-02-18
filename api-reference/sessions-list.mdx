@@ -1,0 +1,38 @@
+---
+title: List Sessions
+api: GET /api/sessions
+description: Get all sessions for the authenticated DJ.
+---
+
+<Note>Requires authentication.</Note>
+
+## Request
+
+No request body. Include the JWT token in the `Authorization` header or as a cookie.
+
+### Example Request
+
+```bash
+curl https://crowdplay-api-i1xh.onrender.com/api/sessions \
+  -H "Authorization: Bearer <token>"
+```
+
+## Response
+
+Returns an array of session objects.
+
+### Example Response
+
+```json
+[
+  {
+    "_id": "64a1b2c3d4e5f6a7b8c9d0e1",
+    "name": "Friday Night Party",
+    "code": "A1B2C3",
+    "isActive": true,
+    "dj": "64a1b2c3d4e5f6a7b8c9d0e0",
+    "queue": [],
+    "createdAt": "2024-01-15T20:00:00.000Z"
+  }
+]
+```

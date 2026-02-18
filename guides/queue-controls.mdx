@@ -1,0 +1,62 @@
+---
+title: Queue Controls
+description: Play, skip, reorder, and manage your song queue.
+---
+
+## Queue Actions
+
+As a DJ, you have full control over the queue. All actions update in **real-time** for both you and connected fans.
+
+### Play Next
+
+Moves the top pending song to **Now Playing** status. The previous "Now Playing" song (if any) is marked as **played**.
+
+- Only one song can be "Now Playing" at a time
+- Click the **Play** button on any pending song to play it next
+
+### Skip
+
+Skips the currently playing song:
+- The song is marked as **skipped** (⏭) in the history
+- The next pending song automatically becomes "Now Playing"
+
+### Remove
+
+Removes a song from the queue entirely:
+- The song disappears from the queue
+- Positions of remaining songs are recalculated
+
+### Reorder
+
+Move songs up or down in the queue:
+- Use the **↑** and **↓** arrow buttons on each queue item
+- The queue order updates instantly for all connected clients
+
+## Duplicate Detection & Voting
+
+When a fan requests a song that's already in the queue:
+
+1. Instead of adding a duplicate, the existing entry's **vote count** increases
+2. The fan who requested it is added to the **voters** list
+3. Each fan can only vote for a specific song **once**
+4. If a fan tries to vote again, they see a "You already voted" message
+5. Songs with more votes stand out with a visible vote badge
+
+<Info>
+  The vote count displayed is `duplicateCount + 1`, representing the original requester plus all additional voters.
+</Info>
+
+## Real-Time Updates
+
+All queue changes are broadcast via Socket.IO:
+
+| Action | Socket Event |
+|--------|-------------|
+| Song requested | `queue-updated` |
+| Play next | `queue-updated` + `now-playing` |
+| Skip | `queue-updated` + `now-playing` |
+| Remove | `queue-updated` |
+| Reorder | `queue-updated` |
+| End session | `session-ended` |
+
+Both the DJ dashboard and fan clients receive these events and update their UI immediately.

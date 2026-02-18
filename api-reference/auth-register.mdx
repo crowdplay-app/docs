@@ -1,0 +1,56 @@
+---
+title: Register
+api: POST /api/auth/register
+description: Create a new DJ account.
+---
+
+## Request
+
+<ParamField body="username" type="string" required>
+  Unique username for the DJ account.
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  Password for the account. Will be hashed with bcrypt.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST https://crowdplay-api-i1xh.onrender.com/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"username": "dj_awesome", "password": "mypassword123"}'
+```
+
+## Response
+
+<ResponseField name="token" type="string">
+  JWT authentication token.
+</ResponseField>
+
+<ResponseField name="dj" type="object">
+  The created DJ object.
+  <Expandable>
+    <ResponseField name="_id" type="string">MongoDB document ID</ResponseField>
+    <ResponseField name="username" type="string">DJ username</ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "dj": {
+    "_id": "64a1b2c3d4e5f6a7b8c9d0e1",
+    "username": "dj_awesome"
+  }
+}
+```
+
+### Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 400 | Username already exists |
+| 400 | Missing required fields |

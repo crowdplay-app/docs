@@ -1,0 +1,104 @@
+---
+title: Architecture
+description: How the CrowdPlay system is structured.
+---
+
+## System Overview
+
+CrowdPlay is a three-part system designed for simplicity and real-time performance.
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│   Homepage      │     │   Fan Client     │     │  DJ Dashboard   │
+│  (React SPA)    │     │  (React SPA)     │     │  (EJS + SSR)    │
+│  GitHub Pages   │     │  GitHub Pages    │     │  Render.com     │
+└────────┬────────┘     └────────┬─────────┘     └────────┬────────┘
+         │                       │                         │
+         │              ┌────────┴─────────┐               │
+         └──────────────┤   Express API    ├───────────────┘
+                        │  + Socket.IO     │
+                        │  Render.com      │
+                        └────────┬─────────┘
+                                 │
+                        ┌────────┴─────────┐
+                        │   MongoDB Atlas  │
+                        └──────────────────┘
+```
+
+## Components
+
+### API Server (Backend)
+
+- **Framework**: Express.js with TypeScript
+- **Views**: EJS templates for the DJ dashboard (server-side rendered)
+- **Auth**: JWT tokens stored in HTTP-only cookies
+- **Real-time**: Socket.IO for live queue updates
+- **Database**: MongoDB Atlas via Mongoose
+- **Song Data**: Deezer API (free, no API key required)
+- **Hosting**: Render.com
+
+### Fan Client
+
+- **Framework**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Hosting**: GitHub Pages
+- **Connection**: Connects to the API via REST + Socket.IO
+
+### Homepage
+
+- **Framework**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Hosting**: GitHub Pages
+- **Data**: Fetches live stats (DJ count, session count) from the API
+
+## Real-Time Flow
+
+When a fan requests a song, here's what happens:
+
+<Steps>
+  <Step title="Fan submits request">
+    The fan client sends a `POST /api/fan/session/:code/request` HTTP request.
+  </Step>
+  <Step title="Server processes">
+    The API server validates the request, checks for duplicates, and updates MongoDB.
+  </Step>
+  <Step title="Socket event emitted">
+    The server emits `queue-updated` and (if applicable) `now-playing` events to all clients in the session room.
+  </Step>
+  <Step title="DJ dashboard updates">
+    The DJ's session page receives the Socket.IO event and re-renders the queue instantly.
+  </Step>
+</Steps>
+
+## Data Model
+
+### Session
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | String | Session display name |
+| `code` | String | 6-character join code |
+| `dj` | ObjectId | Reference to DJ |
+| `isActive` | Boolean | Whether session is live |
+| `queue` | Array | Ordered list of queue items |
+| `createdAt` | Date | Creation timestamp |
+
+### Queue Item
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | String | Unique item ID |
+| `song` | Object | Song data (title, artist, album, preview, cover) |
+| `requestedBy` | String | Fan's nickname |
+| `requestedAt` | Date | Request timestamp |
+| `position` | Number | Order in queue |
+| `status` | String | `pending`, `playing`, `played`, or `skipped` |
+| `duplicateCount` | Number | Number of additional votes |
+| `voters` | Array | List of fan nicknames who voted |
+
+### DJ
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `username` | String | Unique username |
+| `password` | String | Bcrypt-hashed password |

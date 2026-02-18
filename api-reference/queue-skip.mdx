@@ -1,0 +1,38 @@
+---
+title: Skip Song
+api: POST /api/sessions/{id}/skip
+description: Skip the currently playing song.
+---
+
+<Note>Requires authentication.</Note>
+
+## Request
+
+<ParamField path="id" type="string" required>
+  The MongoDB document ID of the session.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST https://crowdplay-api-i1xh.onrender.com/api/sessions/64a1b2c3d4e5f6a7b8c9d0e2/skip \
+  -H "Authorization: Bearer <token>"
+```
+
+## Response
+
+Returns the updated session object.
+
+## Side Effects
+
+- The currently playing song is marked as `skipped`
+- The next pending song automatically becomes `playing`
+- `queue-updated` and `now-playing` Socket.IO events are emitted
+- Skipped songs appear in the history section with a ⏭ icon
+
+### Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 404 | Session not found or no song playing |
+| 401 | Not authenticated |

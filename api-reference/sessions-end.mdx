@@ -1,0 +1,42 @@
+---
+title: End Session
+api: POST /api/sessions/{id}/end
+description: End an active session, preventing new song requests.
+---
+
+<Note>Requires authentication.</Note>
+
+## Request
+
+<ParamField path="id" type="string" required>
+  The MongoDB document ID of the session.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST https://crowdplay-api-i1xh.onrender.com/api/sessions/64a1b2c3d4e5f6a7b8c9d0e2/end \
+  -H "Authorization: Bearer <token>"
+```
+
+## Response
+
+```json
+{
+  "message": "Session ended"
+}
+```
+
+## Side Effects
+
+- The session's `isActive` flag is set to `false`
+- A `session-ended` Socket.IO event is emitted to all connected clients
+- Fans in the session see a "Session has ended" message
+- No further song requests are accepted
+
+### Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 404 | Session not found |
+| 401 | Not authenticated |

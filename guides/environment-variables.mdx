@@ -1,0 +1,58 @@
+---
+title: Environment Variables
+description: Required and optional environment variables for CrowdPlay.
+---
+
+## API Server
+
+These environment variables must be set on your API server (e.g. Render.com):
+
+### Required
+
+<ParamField path="MONGODB_URI" type="string" required>
+  MongoDB connection string. Use MongoDB Atlas for a managed database.
+
+  Example: `mongodb+srv://user:pass@cluster.mongodb.net/crowdplay?retryWrites=true&w=majority`
+</ParamField>
+
+<ParamField path="JWT_SECRET" type="string" required>
+  Secret key used to sign JWT authentication tokens. Use a long, random string.
+
+  Example: `your-super-secret-random-string-here`
+</ParamField>
+
+<ParamField path="FAN_CLIENT_URL" type="string" required>
+  The URL where your fan client is hosted. Used for CORS configuration.
+
+  Example: `https://crowdplay-app.github.io/fan`
+</ParamField>
+
+### Optional
+
+<ParamField path="PORT" type="number" default="3000">
+  The port the server listens on. Render sets this automatically.
+</ParamField>
+
+<ParamField path="NODE_ENV" type="string" default="development">
+  Set to `production` for production deployments. Affects cookie settings and error handling.
+</ParamField>
+
+## Fan Client
+
+The fan client needs the API URL configured in the source code:
+
+| Variable | Location | Description |
+|----------|----------|-------------|
+| API Base URL | `src/` components | The URL of your API server |
+
+## Homepage
+
+The homepage fetches stats from the API:
+
+| Variable | Location | Description |
+|----------|----------|-------------|
+| API Base URL | `src/App.tsx` | The URL of your API server's `/api/stats` endpoint |
+
+<Note>
+  The fan client and homepage don't use `.env` files — the API URL is configured directly in the source code during build time.
+</Note>

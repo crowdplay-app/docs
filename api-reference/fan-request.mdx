@@ -1,0 +1,89 @@
+---
+title: Request Song (Fan)
+api: POST /api/fan/session/{code}/request
+description: Submit a song request to a session. Used by the fan client.
+---
+
+This is a **public endpoint** — no authentication required.
+
+## Request
+
+<ParamField path="code" type="string" required>
+  The 6-character session code.
+</ParamField>
+
+<ParamField body="song" type="object" required>
+  The song object from Deezer search results.
+  <Expandable>
+    <ParamField body="id" type="number" required>Deezer song ID</ParamField>
+    <ParamField body="title" type="string" required>Song title</ParamField>
+    <ParamField body="artist" type="string" required>Artist name</ParamField>
+    <ParamField body="album" type="string">Album name</ParamField>
+    <ParamField body="cover" type="string">Album cover URL</ParamField>
+    <ParamField body="preview" type="string">30-second preview URL</ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="requestedBy" type="string" required>
+  The fan's nickname.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST https://crowdplay-api-i1xh.onrender.com/api/fan/session/X7K9P2/request \
+  -H "Content-Type: application/json" \
+  -d '{
+    "song": {
+      "id": 12345,
+      "title": "Blinding Lights",
+      "artist": "The Weeknd",
+      "album": "After Hours",
+      "cover": "https://e-cdns-images.dzcdn.net/images/cover/...",
+      "preview": "https://cdns-preview-d.dzcdn.net/stream/..."
+    },
+    "requestedBy": "CoolFan42"
+  }'
+```
+
+## Response
+
+### New Song Added
+
+```json
+{
+  "message": "Song added to queue",
+  "position": 3
+}
+```
+
+### Duplicate — Vote Counted
+
+```json
+{
+  "message": "Song already in queue — vote counted",
+  "duplicateCount": 2
+}
+```
+
+### Duplicate — Already Voted
+
+```json
+{
+  "message": "You already voted for this song",
+  "alreadyVoted": true
+}
+```
+
+## Side Effects
+
+- `queue-updated` Socket.IO event emitted to all clients in the session room
+- If this is the first song and nothing is playing, `now-playing` may also be emitted
+
+### Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 404 | Session not found |
+| 400 | Session is not active |
+| 400 | Missing song or requestedBy |

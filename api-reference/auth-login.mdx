@@ -1,0 +1,44 @@
+---
+title: Login
+api: POST /api/auth/login
+description: Authenticate and receive a JWT token.
+---
+
+## Request
+
+<ParamField body="username" type="string" required>
+  DJ account username.
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  DJ account password.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST https://crowdplay-api-i1xh.onrender.com/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "dj_awesome", "password": "mypassword123"}'
+```
+
+## Response
+
+<ResponseField name="token" type="string">
+  JWT authentication token. Also set as an HTTP-only cookie named `token`.
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIs..."
+}
+```
+
+### Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 401 | Invalid username or password |
+| 400 | Missing required fields |

@@ -1,0 +1,173 @@
+---
+title: WebSocket Events
+description: Real-time Socket.IO events for live queue updates.
+---
+
+CrowdPlay uses **Socket.IO** for real-time communication between the server, DJ dashboard, and fan clients.
+
+## Connection
+
+Connect to the Socket.IO server at:
+
+```
+https://crowdplay-api-i1xh.onrender.com
+```
+
+### Example (JavaScript)
+
+```javascript
+import { io } from "socket.io-client";
+
+const socket = io("https://crowdplay-api-i1xh.onrender.com");
+```
+
+## Client → Server Events
+
+### `join-session`
+
+Join a session room to receive updates for that session.
+
+```javascript
+socket.emit("join-session", { sessionId: "64a1b2c3..." });
+```
+
+| Param | Type | Description |
+|-------|------|-------------|
+| `sessionId` | string | The MongoDB ID of the session |
+
+### `leave-session`
+
+Leave a session room.
+
+```javascript
+socket.emit("leave-session", { sessionId: "64a1b2c3..." });
+```
+
+### `song-requested`
+
+Request a song (alternative to the REST endpoint).
+
+```javascript
+socket.emit("song-requested", {
+  sessionId: "64a1b2c3...",
+  song: { id: 12345, title: "Blinding Lights", artist: "The Weeknd", ... },
+  requestedBy: "CoolFan42"
+});
+```
+
+### `play-next`
+
+Play the next pending song (DJ only).
+
+```javascript
+socket.emit("play-next", { sessionId: "64a1b2c3..." });
+```
+
+### `skip-song`
+
+Skip the currently playing song (DJ only).
+
+```javascript
+socket.emit("skip-song", { sessionId: "64a1b2c3..." });
+```
+
+### `remove-song`
+
+Remove a song from the queue (DJ only).
+
+```javascript
+socket.emit("remove-song", { sessionId: "64a1b2c3...", itemId: "item-uuid-1" });
+```
+
+### `reorder-queue`
+
+Reorder a song in the queue (DJ only).
+
+```javascript
+socket.emit("reorder-queue", {
+  sessionId: "64a1b2c3...",
+  itemId: "item-uuid-1",
+  direction: "up" // or "down"
+});
+```
+
+### `end-session`
+
+End a session (DJ only).
+
+```javascript
+socket.emit("end-session", { sessionId: "64a1b2c3..." });
+```
+
+## Server → Client Events
+
+### `queue-updated`
+
+Emitted when the queue changes (song added, removed, reordered, played, or skipped).
+
+```javascript
+socket.on("queue-updated", (data) => {
+  console.log(data.queue); // Updated queue array
+});
+```
+
+**Payload:**
+
+```json
+{
+  "queue": [
+    {
+      "id": "item-uuid-1",
+      "song": { "title": "...", "artist": "..." },
+      "requestedBy": "CoolFan42",
+      "status": "pending",
+      "position": 0,
+      "duplicateCount": 2,
+      "voters": ["CoolFan42", "MusicLover", "PartyPerson"]
+    }
+  ]
+}
+```
+
+### `now-playing`
+
+Emitted when a new song starts playing.
+
+```javascript
+socket.on("now-playing", (data) => {
+  console.log(data.song); // Currently playing song
+});
+```
+
+### `duplicate-detected`
+
+Emitted when a fan requests a song that's already in the queue.
+
+```javascript
+socket.on("duplicate-detected", (data) => {
+  console.log(data.message);
+  console.log(data.duplicateCount);
+});
+```
+
+### `session-ended`
+
+Emitted when the DJ ends the session.
+
+```javascript
+socket.on("session-ended", () => {
+  // Show "session ended" UI
+});
+```
+
+## Room-Based Broadcasting
+
+Events are scoped to session rooms. When a client emits `join-session`, the server adds them to a Socket.IO room named after the session ID. All subsequent events for that session are broadcast only to clients in that room.
+
+```
+Client A joins room "session-123"
+Client B joins room "session-123"
+Client C joins room "session-456"
+
+Event in "session-123" → received by A and B only
+```

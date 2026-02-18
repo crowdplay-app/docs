@@ -1,97 +1,62 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: CrowdPlay
+description: Let your crowd shape the music. Real-time song request and queue management for DJs.
 ---
 
-## Setting up
+<img
+  className="block dark:hidden"
+  src="/logo/logo.png"
+  alt="CrowdPlay"
+  style={{ width: 120, margin: '0 auto 2rem' }}
+/>
+<img
+  className="hidden dark:block"
+  src="/logo/logo.png"
+  alt="CrowdPlay"
+  style={{ width: 120, margin: '0 auto 2rem' }}
+/>
 
-Get your documentation site up and running in minutes.
+CrowdPlay is a real-time song request and queue management platform for DJs. Fans scan a QR code, request songs, and upvote favorites — the DJ sees everything update live on their dashboard.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+## How It Works
 
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={3}>
+  <Card title="DJ Creates a Session" icon="music">
+    Sign up, create a session, and share the QR code with your crowd.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Fans Request Songs" icon="mobile">
+    Fans scan the QR code, search for songs, and submit requests.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Queue Updates Live" icon="bolt">
+    The DJ's dashboard updates in real-time via WebSockets. Play, skip, or reorder the queue on the fly.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## Quick Links
 
-Everything you need to create world-class documentation.
+<CardGroup cols={2}>
+  <Card title="DJ Quick Start" icon="headphones" href="/guides/dj-getting-started">
+    Set up your account and create your first session.
+  </Card>
+  <Card title="Fan Guide" icon="users" href="/guides/fan-joining">
+    Learn how to join a session and request songs.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    Integrate with the CrowdPlay API.
+  </Card>
+  <Card title="Deployment" icon="rocket" href="/guides/deployment">
+    Self-host your own CrowdPlay instance.
+  </Card>
+</CardGroup>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## Architecture
 
-## Need inspiration?
+CrowdPlay consists of three parts:
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+| Component | Tech | URL |
+|-----------|------|-----|
+| **API / DJ Dashboard** | Express.js + TypeScript + EJS | [crowdplay-api-i1xh.onrender.com](https://crowdplay-api-i1xh.onrender.com) |
+| **Fan Client** | React + Vite SPA | [crowdplay-app.github.io/fan](https://crowdplay-app.github.io/fan/) |
+| **Homepage** | React + Vite SPA | [crowdplay-app.github.io/home](https://crowdplay-app.github.io/home/) |
+
+All real-time communication happens over **Socket.IO** WebSockets. Song data comes from the **Deezer API**.

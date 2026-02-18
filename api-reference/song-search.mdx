@@ -1,0 +1,46 @@
+---
+title: Search Songs
+api: GET /api/songs/search
+description: Search for songs using the Deezer API.
+---
+
+This is a **public endpoint** — no authentication required.
+
+## Request
+
+<ParamField query="q" type="string" required>
+  Search query (song title, artist name, or both).
+</ParamField>
+
+<ParamField query="limit" type="number" default="10">
+  Maximum number of results to return.
+</ParamField>
+
+### Example Request
+
+```bash
+curl "https://crowdplay-api-i1xh.onrender.com/api/songs/search?q=blinding+lights&limit=5"
+```
+
+## Response
+
+Returns an array of song objects from Deezer.
+
+### Example Response
+
+```json
+[
+  {
+    "id": 908604462,
+    "title": "Blinding Lights",
+    "artist": "The Weeknd",
+    "album": "After Hours",
+    "cover": "https://e-cdns-images.dzcdn.net/images/cover/...",
+    "preview": "https://cdns-preview-d.dzcdn.net/stream/..."
+  }
+]
+```
+
+<Info>
+  Song data comes from the [Deezer API](https://developers.deezer.com/api), which is free and requires no API key. The server acts as a proxy to avoid CORS issues.
+</Info>

@@ -1,0 +1,37 @@
+---
+title: Play Next
+api: POST /api/sessions/{id}/play-next
+description: Move the next pending song to "Now Playing".
+---
+
+<Note>Requires authentication.</Note>
+
+## Request
+
+<ParamField path="id" type="string" required>
+  The MongoDB document ID of the session.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST https://crowdplay-api-i1xh.onrender.com/api/sessions/64a1b2c3d4e5f6a7b8c9d0e2/play-next \
+  -H "Authorization: Bearer <token>"
+```
+
+## Response
+
+Returns the updated session object with the new "Now Playing" song.
+
+## Side Effects
+
+- The first pending song becomes `playing`
+- The previously playing song (if any) becomes `played`
+- `queue-updated` and `now-playing` Socket.IO events are emitted
+
+### Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 404 | Session not found or no pending songs |
+| 401 | Not authenticated |

@@ -1,0 +1,48 @@
+---
+title: Reorder Queue
+api: PUT /api/sessions/{id}/queue/reorder
+description: Reorder songs in the queue.
+---
+
+<Note>Requires authentication.</Note>
+
+## Request
+
+<ParamField path="id" type="string" required>
+  The MongoDB document ID of the session.
+</ParamField>
+
+<ParamField body="itemId" type="string" required>
+  The unique ID of the queue item to move.
+</ParamField>
+
+<ParamField body="direction" type="string" required>
+  Direction to move: `up` or `down`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X PUT https://crowdplay-api-i1xh.onrender.com/api/sessions/64a1b2c3d4e5f6a7b8c9d0e2/queue/reorder \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"itemId": "item-uuid-1", "direction": "up"}'
+```
+
+## Response
+
+Returns the updated session object with the reordered queue.
+
+## Side Effects
+
+- The specified song swaps position with its neighbor
+- A `queue-updated` Socket.IO event is emitted
+- All connected clients see the new order immediately
+
+### Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 404 | Session or queue item not found |
+| 400 | Invalid direction |
+| 401 | Not authenticated |

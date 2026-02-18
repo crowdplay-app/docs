@@ -1,68 +1,104 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "CrowdPlay",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#8b5cf6",
+    "light": "#a78bfa",
+    "dark": "#7c3aed"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/logo/logo.png",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
               "index",
               "quickstart",
-              "development"
+              "architecture"
             ]
           },
           {
-            "group": "Customization",
+            "group": "DJ Guide",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "guides/dj-getting-started",
+              "guides/session-management",
+              "guides/queue-controls"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Fan Guide",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "guides/fan-joining",
+              "guides/requesting-songs"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Deployment",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "guides/deployment",
+              "guides/environment-variables"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Authentication",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/auth-register",
+              "api-reference/auth-login",
+              "api-reference/auth-logout"
+            ]
+          },
+          {
+            "group": "Sessions",
+            "pages": [
+              "api-reference/sessions-list",
+              "api-reference/sessions-create",
+              "api-reference/sessions-get",
+              "api-reference/sessions-end",
+              "api-reference/sessions-qr"
+            ]
+          },
+          {
+            "group": "Queue Management",
+            "pages": [
+              "api-reference/queue-play-next",
+              "api-reference/queue-skip",
+              "api-reference/queue-remove",
+              "api-reference/queue-reorder"
+            ]
+          },
+          {
+            "group": "Fan Endpoints",
+            "pages": [
+              "api-reference/fan-session",
+              "api-reference/fan-request"
+            ]
+          },
+          {
+            "group": "Public",
+            "pages": [
+              "api-reference/stats",
+              "api-reference/song-search"
+            ]
+          },
+          {
+            "group": "WebSocket Events",
+            "pages": [
+              "api-reference/websocket"
             ]
           }
         ]
@@ -71,52 +107,38 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "GitHub",
+          "href": "https://github.com/crowdplay-app",
+          "icon": "github"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Homepage",
+          "href": "https://crowdplay-app.github.io/home/",
+          "icon": "house"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/logo.png",
+    "dark": "/logo/logo.png"
   },
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Fan Client",
+        "href": "https://crowdplay-app.github.io/fan/"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "DJ Dashboard",
+      "href": "https://crowdplay-api-i1xh.onrender.com/login"
     }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/crowdplay-app"
     }
   }
 }

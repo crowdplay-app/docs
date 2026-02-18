@@ -1,0 +1,39 @@
+---
+title: Get QR Code
+api: GET /api/sessions/{id}/qr
+description: Get the QR code for a session as a data URL.
+---
+
+<Note>Requires authentication.</Note>
+
+## Request
+
+<ParamField path="id" type="string" required>
+  The MongoDB document ID of the session.
+</ParamField>
+
+### Example Request
+
+```bash
+curl https://crowdplay-api-i1xh.onrender.com/api/sessions/64a1b2c3d4e5f6a7b8c9d0e2/qr \
+  -H "Authorization: Bearer <token>"
+```
+
+## Response
+
+<ResponseField name="qrCode" type="string">
+  A base64-encoded data URL of the QR code image (PNG format).
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "qrCode": "data:image/png;base64,iVBORw0KGgoAAAANS..."
+}
+```
+
+The QR code encodes the fan client URL with the session code:
+```
+https://crowdplay-app.github.io/fan/?code=X7K9P2
+```

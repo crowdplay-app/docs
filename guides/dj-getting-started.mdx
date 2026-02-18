@@ -1,0 +1,49 @@
+---
+title: DJ Getting Started
+description: Create your CrowdPlay account and set up your first session.
+---
+
+## Create an Account
+
+1. Visit the [DJ Dashboard](https://crowdplay-api-i1xh.onrender.com/login)
+2. Click **Register**
+3. Enter a **username** and **password**
+4. Click **Register** to create your account
+
+<Info>
+  Usernames must be unique. Passwords are securely hashed with bcrypt.
+</Info>
+
+## Your Dashboard
+
+After logging in, you'll see your **dashboard** showing all your sessions. From here you can:
+
+- **Create New Session** — start a new session for your event
+- **View existing sessions** — click any session card to open it
+- **Manage sessions** — use the 3-dot menu on each card to end, restart, or delete sessions
+
+## Session Limits
+
+Each DJ can create up to **20 sessions**. This includes both active and ended sessions. If you've reached the limit, delete old sessions to make room.
+
+## Creating a Session
+
+1. Click **Create New Session** on your dashboard
+2. Enter a session name (e.g. "Saturday Night Live", "Beach Party")
+3. The session is created with a unique **6-character code** and a **QR code**
+
+## Sharing with Fans
+
+Each session has a QR code that links fans directly to your session. You can:
+
+- **Display the QR code** on a screen at your venue
+- **Share the link** directly — the URL contains your session code
+- The fan URL format is: `https://crowdplay-app.github.io/fan/?code=XXXXXX`
+
+## Session States
+
+| State | Description |
+|-------|-------------|
+| **Active** | Fans can join and request songs. Queue is live. |
+| **Ended** | No new requests. Existing queue is preserved for reference. |
+| **Restarted** | An ended session can be restarted to accept requests again. |

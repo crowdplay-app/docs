@@ -1,0 +1,27 @@
+---
+title: Logout
+api: POST /api/auth/logout
+description: Clear the authentication cookie.
+---
+
+## Request
+
+No request body required. The server clears the `token` cookie.
+
+### Example Request
+
+```bash
+curl -X POST https://crowdplay-api-i1xh.onrender.com/api/auth/logout
+```
+
+## Response
+
+```json
+{
+  "message": "Logged out"
+}
+```
+
+<Note>
+  This endpoint clears the HTTP-only cookie. If using Bearer tokens directly, simply discard the token on the client side.
+</Note>

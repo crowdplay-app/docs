@@ -1,0 +1,86 @@
+---
+title: Deployment Guide
+description: Deploy your own CrowdPlay instance.
+---
+
+## Overview
+
+CrowdPlay has three deployable components:
+
+| Component | Recommended Host | Repo |
+|-----------|-----------------|------|
+| API + DJ Dashboard | [Render.com](https://render.com) | `crowdplay-app/api` |
+| Fan Client | [GitHub Pages](https://pages.github.com) | `crowdplay-app/fan` |
+| Homepage | [GitHub Pages](https://pages.github.com) | `crowdplay-app/home` |
+
+## Prerequisites
+
+- A [MongoDB Atlas](https://www.mongodb.com/atlas) database (free tier works)
+- A [Render.com](https://render.com) account (free tier works)
+- A [GitHub](https://github.com) account with GitHub Pages enabled
+
+## Deploy the API (Render.com)
+
+<Steps>
+  <Step title="Create a Web Service">
+    In Render, click **New > Web Service** and connect your `api` repo.
+  </Step>
+  <Step title="Configure Build Settings">
+    - **Build Command**: `npm install --include=dev && npx tsc`
+    - **Start Command**: `node dist/app.js`
+    - **Environment**: Node
+  </Step>
+  <Step title="Set Environment Variables">
+    Add the required [environment variables](/guides/environment-variables):
+    - `MONGODB_URI` — your MongoDB Atlas connection string
+    - `JWT_SECRET` — a random secret string for JWT signing
+    - `FAN_CLIENT_URL` — the URL of your fan client (e.g. `https://crowdplay-app.github.io/fan`)
+  </Step>
+  <Step title="Deploy">
+    Click **Create Web Service**. Render will build and deploy automatically.
+  </Step>
+</Steps>
+
+## Deploy the Fan Client (GitHub Pages)
+
+The fan client uses a GitHub Actions workflow for automatic deployment:
+
+<Steps>
+  <Step title="Update the API URL">
+    In `fan-client/src/`, update the API base URL to point to your Render deployment.
+  </Step>
+  <Step title="Enable GitHub Pages">
+    In your repo settings, go to **Pages** and set the source to **GitHub Actions**.
+  </Step>
+  <Step title="Push to main">
+    Every push to `main` triggers the build and deploy workflow automatically.
+  </Step>
+</Steps>
+
+## Deploy the Homepage (GitHub Pages)
+
+Same process as the fan client:
+
+1. Update the API URL in the homepage source to fetch stats from your API
+2. Enable GitHub Pages with **GitHub Actions** source
+3. Push to `main` to trigger deployment
+
+## Render Blueprint (Optional)
+
+The repo includes a `render.yaml` for one-click Render deployment:
+
+```yaml
+services:
+  - type: web
+    name: crowdplay-api
+    env: node
+    buildCommand: npm install --include=dev && npx tsc
+    startCommand: node dist/app.js
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FAN_CLIENT_URL
+        sync: false
+```

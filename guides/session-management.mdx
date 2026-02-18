@@ -1,0 +1,54 @@
+---
+title: Session Management
+description: End, restart, and delete sessions from your dashboard.
+---
+
+## Managing Sessions
+
+Every session card on your dashboard has a **3-dot menu** (⋮) with management options.
+
+### End a Session
+
+Ending a session marks it as inactive:
+- Fans can no longer submit new song requests
+- The "Now Playing" section is hidden
+- The queue history (played/skipped songs) is preserved
+- The session remains on your dashboard
+
+### Restart a Session
+
+You can restart an ended session to make it active again:
+- Fans can submit new requests
+- The existing queue remains intact
+- The session goes back to "Active" state
+
+### Delete a Session
+
+Deleting a session permanently removes it:
+- The session and all its queue data are erased from the database
+- This frees up one slot toward your 20-session limit
+- **This action cannot be undone**
+
+<Warning>
+  Deleting a session is permanent. Make sure you don't need the queue history before deleting.
+</Warning>
+
+## Session Dashboard View
+
+When you click into a session, you see:
+
+| Section | Description |
+|---------|-------------|
+| **QR Code** | Scannable code for fans to join |
+| **Session Code** | 6-character alphanumeric code |
+| **Now Playing** | Currently playing song (hidden when session is ended) |
+| **Up Next** | Pending songs ordered by position, with vote counts |
+| **History** | Previously played (✅) and skipped (⏭) songs |
+
+## Queue Display
+
+Each song in the queue shows:
+- **Song title and artist** with album artwork
+- **Requested by** — the fan's nickname
+- **Vote count** — displayed as a number (shows when > 0 votes)
+- **Controls** — Play Next, Skip, Remove, Reorder (up/down arrows)

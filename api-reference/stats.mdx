@@ -1,0 +1,40 @@
+---
+title: Platform Stats
+api: GET /api/stats
+description: Get live platform statistics.
+---
+
+This is a **public endpoint** — no authentication required. Used by the homepage to display live stats.
+
+## Request
+
+No parameters required.
+
+### Example Request
+
+```bash
+curl https://crowdplay-api-i1xh.onrender.com/api/stats
+```
+
+## Response
+
+<ResponseField name="djs" type="number">
+  Total number of registered DJs on the platform.
+</ResponseField>
+
+<ResponseField name="sessions" type="number">
+  Total number of sessions created across all DJs.
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "djs": 42,
+  "sessions": 156
+}
+```
+
+<Note>
+  The homepage displays these with a `+` suffix (e.g. "42+ DJs") to indicate the numbers are growing.
+</Note>
