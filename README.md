@@ -2,13 +2,7 @@
 
 Documentation for [CrowdPlay](https://crowdplay-app.github.io/home/) — the real-time song request and queue management platform for DJs.
 
-Built with [Mintlify](https://mintlify.com/).
-
-## Development
-
-```bash
-npx mintlify dev
-```
+---
 
 ## Links
 
